@@ -19,7 +19,9 @@ public class Attachment {
     @JoinColumn(name = "lesson_id", nullable = false)
     private Lesson lesson;
 
-    private String filename;
+    private String fileName;
 
     private String url;
+
+    private String fileType;
 }

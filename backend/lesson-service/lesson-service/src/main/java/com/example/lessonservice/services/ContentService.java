@@ -1,14 +1,12 @@
 package com.example.lessonservice.services;
 
 import com.example.lessonservice.entities.Content;
-import com.example.lessonservice.entities.ContentType;
-import com.example.lessonservice.entities.Lesson;
+import com.example.lessonservice.enums.ContentType;
 import com.example.lessonservice.repository.ContentRepository;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,26 +28,45 @@ public class ContentService {
         if(!contentToUpdate.getLesson().equals(content.getLesson())
                 || !contentToUpdate.getType().equals(content.getType())
                 || !contentToUpdate.getData().equals(content.getData())
-                || !contentToUpdate.getUrl().equals(content.getUrl())){
+                || !contentToUpdate.getUrl().equals(content.getUrl()))
+        {
+            content.setLesson(contentToUpdate.getLesson());
+            content.setType(contentToUpdate.getType());
+            content.setData(contentToUpdate.getData());
+            content.setUrl(contentToUpdate.getUrl());
             content = contentRepository.save(content);
+            return content;
         }
-        return content;
+        else {
+            throw new RuntimeException("Content cannot be updated because it is empty");
+        }
     }
     public void deleteContentById(Long id) {
         contentRepository.deleteById(id);
     }
-    public List<Content> getContentsByLesson(Lesson lesson) {
-        return contentRepository.findByLesson(lesson);
+    public List<Content> getContentsByLessonId(Long id) {
+        try {
+            return contentRepository.findByLessonId(id);
+        }
+        catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Content not found");
+        }
     }
     public List<Content> getContentsByType(ContentType type) {
-        List<Content> contents = new ArrayList<>();
-        List<Content> allContents = getAllContents();
-        for (Content content : allContents) {
-            if(content.getType().equals(type)){
-                contents.add(content);
-            }
+//        List<Content> contents = new ArrayList<>();
+//        List<Content> allContents = getAllContents();
+//        for (Content content : allContents) {
+//            if(content.getType().equals(type)){
+//                contents.add(content);
+//            }
+//        }
+//        return contents;
+        try {
+            return contentRepository.getContentsByType(type);
         }
-        return contents;
+        catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Content not found or type not exist");
+        }
     }
 
 }

@@ -1,2 +1,4 @@
-package com.example.courseservice.commands.module.controller;public class ModuleController {
+package com.example.courseservice.commands.module.controller;
+
+public class ModuleController {
 }

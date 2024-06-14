@@ -1,2 +1,9 @@
-package com.example.courseservice.repositories;public interface CourseRepository {
+package com.example.courseservice.repositories;
+
+import com.example.courseservice.entities.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CourseRepository extends JpaRepository<Course, Long> {
 }

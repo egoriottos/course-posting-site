@@ -1,5 +1,6 @@
 package com.example.lessonservice.entities;
 
+import com.example.lessonservice.enums.ContentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

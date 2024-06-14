@@ -34,10 +34,19 @@ public class LessonService {
                 || !lessonToUpdate.getContentList().equals(lesson.getContentList())
                 || !lessonToUpdate.getAttachments().equals(lesson.getAttachments())
                 || !lessonToUpdate.getCourseId().equals(lesson.getCourseId())
-                || lessonToUpdate.isPublished() != lesson.isPublished()){
-            lesson = lessonRepository.save(lessonToUpdate);
+                || lessonToUpdate.isPublished() != lesson.isPublished())
+        {
+            lessonToUpdate.setTitle(lesson.getTitle());
+            lessonToUpdate.setDescription(lesson.getDescription());
+            lessonToUpdate.setContentList(lesson.getContentList());
+            lessonToUpdate.setAttachments(lesson.getAttachments());
+            lessonToUpdate.setCourseId(lesson.getCourseId());
+            lessonToUpdate.setPublished(lesson.isPublished());
+            return lessonRepository.save(lessonToUpdate);
         }
-        return lesson;
+        else {
+            throw new EntityNotFoundException("Lesson not found");
+        }
     }
 
     public void deleteLesson(long id) {
@@ -54,15 +63,13 @@ public class LessonService {
     }
     public List<Lesson> getLessonByTitle(String title) {
         List<Lesson> lessons = getAllLessons();
-        List<Lesson> findedLessons = new ArrayList<>();
+        List<Lesson> filteredLessons = new ArrayList<>();
         for(Lesson lesson : lessons) {
-            if(lesson.getTitle().equals(title) || lesson.getTitle().contains(title)) {
-                findedLessons.add(lesson);
-            }
-            else {
-                throw new EntityNotFoundException("Lesson not found");
+            if(lessonRepository.findByTitle(title).toString().equals(lesson.getTitle())
+                    || lessonRepository.findByTitle(title).toString().contains(lesson.getTitle())){
+                filteredLessons.add(lesson);
             }
         }
-        return findedLessons;
+        return filteredLessons;
     }
 }
