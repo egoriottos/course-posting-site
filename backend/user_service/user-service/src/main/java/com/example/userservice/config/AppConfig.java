@@ -1,8 +1,9 @@
 package com.example.userservice.config;
 
-import com.example.userservice.repository.UserRepository;
+import com.example.userservice.repository.interfaces.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -23,7 +24,7 @@ public class AppConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Username not found"));
+        return username -> userRepository.findByLogin(username).orElseThrow(()->new UsernameNotFoundException("Username not found"));
     }
 
     @Bean
@@ -37,5 +38,10 @@ public class AppConfig {
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.userservice.domain.entity;
 
+import com.example.userservice.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,21 +22,23 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String username;
+    private String login;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String firstname;
+    @Column(nullable = false)
     private String lastname;
-    @Column(nullable = false,length = 12)
+    @Column(nullable = false, length = 12)
     private String phone;
     private Date dateOfBirth;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
     @Embedded
-    private ValueObj valueObj;
-    private Status status;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserProfile userProfile;
+    private Roles roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,6 +72,6 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return login;
     }
 }
