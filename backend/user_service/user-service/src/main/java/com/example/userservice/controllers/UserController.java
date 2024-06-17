@@ -41,10 +41,12 @@ public class UserController {
                 + " "
                 + user.getLogin()
                 + " "
-                + user.getPassword()
-                + " "
                 + user.getFirstname()
                 + " "
-                + user.getLastname();
+                + user.getLastname()
+                + " "
+                + user.getPhone()
+                + " "
+                + user.getDateOfBirth();
     }
 }

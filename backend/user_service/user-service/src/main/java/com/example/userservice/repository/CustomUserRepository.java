@@ -31,7 +31,6 @@ public class CustomUserRepository {
         if (searchParams.getLogin() != null) {
             predicates.add(cb.equal(root.get("login"), searchParams.getLogin()));
         }
-
         if (searchParams.getEmail() != null) {
             predicates.add(cb.equal(root.get("email"), searchParams.getEmail()));
         }
@@ -55,6 +54,10 @@ public class CustomUserRepository {
         if (searchParams.getDateOfBirth() != null) {
             predicates.add(cb.equal(root.get("dateOfBirth"), searchParams.getDateOfBirth()));
         }
+        if(searchParams.getRoles() !=null){
+            predicates.add(cb.equal(root.get("roles"), searchParams.getRoles()));
+        }
+
 
 
         final Predicate[] a = new Predicate[0];

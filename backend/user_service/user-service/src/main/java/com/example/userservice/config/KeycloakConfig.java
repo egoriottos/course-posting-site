@@ -28,7 +28,7 @@ public class KeycloakConfig {
     @Bean
     public CorsConfigurationSource corsConfiguration() {
         var configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);
@@ -48,8 +48,7 @@ public class KeycloakConfig {
         http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizer->{
-                    authorizer.requestMatchers("test/api").authenticated()
-                            .anyRequest().permitAll();
+                    authorizer.requestMatchers("api/user/create").permitAll().anyRequest().authenticated();
                 });
         http.oauth2ResourceServer((oauth2)->
                 oauth2.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter)));

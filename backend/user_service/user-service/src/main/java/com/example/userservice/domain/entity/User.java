@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 @Entity
@@ -26,18 +27,18 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
     private String firstname;
     @Column(nullable = false)
     private String lastname;
     @Column(nullable = false, length = 12)
     private String phone;
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
     @Embedded
+    @Column(nullable = false)
     private Roles roles;
 
     @Override
