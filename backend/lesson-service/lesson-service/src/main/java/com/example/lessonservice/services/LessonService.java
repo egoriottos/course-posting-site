@@ -1,34 +1,47 @@
 package com.example.lessonservice.services;
 
+import com.example.lessonservice.commands.Lesson.CreateLessonCommand;
+import com.example.lessonservice.commands.Lesson.LessonSearch;
+import com.example.lessonservice.commands.Lesson.UpdateLessonCommand;
+import com.example.lessonservice.commands.Lesson.response.LessonResponse;
 import com.example.lessonservice.entities.Lesson;
+import com.example.lessonservice.repository.CustomRepository.CustomLessonRepository;
 import com.example.lessonservice.repository.LessonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class LessonService {
     private final LessonRepository lessonRepository;
+    private final CustomLessonRepository customLessonRepository;
+    private final ModelMapper modelMapper;
 
-
-    public Lesson createLesson(Lesson lesson) {
-        return lessonRepository.save(lesson);
+    @Transactional
+    public void createLesson(CreateLessonCommand createLessonCommand) {
+        var lesson = Lesson.builder()
+                .attachments(createLessonCommand.getAttachments())
+                .contentList(createLessonCommand.getContentList())
+                .description(createLessonCommand.getDescription())
+                .title(createLessonCommand.getTitle())
+                .courseId(createLessonCommand.getCourseId())
+                .published(createLessonCommand.isPublished())
+                .createdAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .build();
+         lessonRepository.save(lesson);
     }
-
-    public List<Lesson> getAllLessons() {
-        return lessonRepository.findAll();
-    }
-
-    public Lesson getLesson(long id) {
-        return lessonRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Lesson not found"));
-    }
-
-    public Lesson updateLesson(long id, Lesson lesson) {
-        var lessonToUpdate = getLesson(id);
+    @Transactional
+    public void updateLesson(long id, UpdateLessonCommand lesson) {
+        var lessonToUpdate = lessonRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if(!lessonToUpdate.getTitle().equals(lesson.getTitle())
                 || !lessonToUpdate.getDescription().equals(lesson.getDescription())
                 || !lessonToUpdate.getContentList().equals(lesson.getContentList())
@@ -42,34 +55,22 @@ public class LessonService {
             lessonToUpdate.setAttachments(lesson.getAttachments());
             lessonToUpdate.setCourseId(lesson.getCourseId());
             lessonToUpdate.setPublished(lesson.isPublished());
-            return lessonRepository.save(lessonToUpdate);
+            lessonToUpdate.setUpdatedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+            lessonRepository.save(lessonToUpdate);
         }
         else {
             throw new EntityNotFoundException("Lesson not found");
         }
     }
-
+    @Transactional
     public void deleteLesson(long id) {
         lessonRepository.deleteById(id);
     }
 
-    public List<Lesson> getLessonsByCourseId(long courseId) {
-        try {
-            return lessonRepository.findByCourseId(courseId);
-        }
-        catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Lesson not found");
-        }
+    public List<LessonResponse> search(LessonSearch search){
+        List<Lesson> lessons = customLessonRepository.search(search);
+        return lessons.stream().map(obj->modelMapper.map(obj, LessonResponse.class)).toList();
+
     }
-    public List<Lesson> getLessonByTitle(String title) {
-        List<Lesson> lessons = getAllLessons();
-        List<Lesson> filteredLessons = new ArrayList<>();
-        for(Lesson lesson : lessons) {
-            if(lessonRepository.findByTitle(title).toString().equals(lesson.getTitle())
-                    || lessonRepository.findByTitle(title).toString().contains(lesson.getTitle())){
-                filteredLessons.add(lesson);
-            }
-        }
-        return filteredLessons;
-    }
+
 }

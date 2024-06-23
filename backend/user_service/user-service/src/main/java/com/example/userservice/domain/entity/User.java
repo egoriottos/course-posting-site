@@ -37,8 +37,8 @@ public class User implements UserDetails {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-    @Embedded
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Roles roles;
 
     @Override

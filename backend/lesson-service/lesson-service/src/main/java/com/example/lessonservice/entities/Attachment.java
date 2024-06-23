@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "attachments")
 @Data
@@ -24,4 +26,7 @@ public class Attachment {
     private String url;
 
     private String fileType;
+
+    private Date createdAt;
+    private Date updatedAt;
 }

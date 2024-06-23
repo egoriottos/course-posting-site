@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
-    List<Attachment> findByLessonId(Long lessonId);
 }

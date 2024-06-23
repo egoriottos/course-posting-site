@@ -2,13 +2,12 @@ package com.example.lessonservice.commands.Lesson.lessonQuery;
 
 import com.example.lessonservice.entities.Attachment;
 import com.example.lessonservice.entities.Content;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Lob;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -27,4 +26,8 @@ public class LessonQuery {
     private Long courseId;
 
     private boolean published;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date updatedAt;
 }

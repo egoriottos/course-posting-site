@@ -9,6 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-    List<Lesson> findByCourseId(Long courseId);
-    List<Lesson> findByTitle(String title);
 }
