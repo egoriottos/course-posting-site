@@ -7,5 +7,5 @@ export default function Redirect() {
 	useEffect(() => {
 		getTokens()
 	}, [])
-	return <Card>Загрузка...</Card>
+	return <Card>Loading...</Card>
 }

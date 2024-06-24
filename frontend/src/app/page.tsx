@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Inter as FontSans} from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { authorise } from "@/utils/authorisationLogic"
+import { signOut } from "@/utils/token";
 
 const inter = Inter({ subsets: ["latin"] });
 const fontSans = FontSans({
@@ -42,7 +43,8 @@ export default function RootLayout(){
         onClick={authorise}
         >
           Authorization</Button></p>
-        <p><Button className="hover:bg-green-300">Create account</Button></p>   
+        <p><Button className="hover:bg-green-300">Create account</Button></p> 
+        <p><Button className="hover:bg-green-300" onClick={signOut}>Logout</Button></p>  
       </div>
   )
 
