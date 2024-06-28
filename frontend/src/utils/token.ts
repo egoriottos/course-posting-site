@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios'
-import { jwtDecode } from 'jwt-decode'
+import jwt_decode from 'jwt-decode'
 import queryString from 'query-string'
 import { TOKEN_URL } from './authorisationLogic'
 
@@ -19,7 +19,7 @@ export const saveTokenInLS = (token: TokenType) => {
 	window.localStorage.setItem('token', convertedToken)
 }
 export const checkIsTokenExpired = (token: string): boolean => {
-	const decodedToken: any = jwtDecode(token)
+	const decodedToken: any = jwt_decode(token)
 	const now = new Date().getTime()
 	const expirationDate = decodedToken.exp * 1000
 	return now > expirationDate

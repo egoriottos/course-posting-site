@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Inter as FontSans} from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { authorise } from "@/utils/authorisationLogic"
-import { signOut } from "@/utils/token";
+import { signOut, getTokens, TokenType } from "@/utils/token";
 
 const inter = Inter({ subsets: ["latin"] });
 const fontSans = FontSans({
@@ -20,14 +20,24 @@ export const metadata: Metadata = {
 
 
 export default function RootLayout(){
+  
 
   return (
+    
     <div
       className={cn(
+        
         "min-h-screen bg-[url('/1646371322_10-kartinkin-net-p-kartinki-pro-uchebu-10.jpg')] font-sans antialiased flex flex-col justify-center items-center gap-4",
         fontSans.variable
       )}
       >
+         <div className="absolute top-0 left-0 w-1/2, h-1/2">
+          <img
+            src="/эмблема.png" // Убедитесь, что путь к изображению правильный
+            alt="Эмблема"
+            className="w-24 h-24"
+          />
+        </div>
        <div className="absolute top-0 right-0 h-full w-1/4 bg-purple-700"></div>
        <div className="absolute top-0 right-0 h-full w-1/4 z-20 flex flex-col justify-start items-center text-white text-xl font-bold p-5">
         <p className="text-center">Добро пожаловать на онлайн платформу для обучения и преподавания. Здесь вы сможете как освоить новые направления и профессии, так и быть преподавателем и передовать свои знания другим людям, а также многое другое. Присоединяйся!</p>
@@ -45,7 +55,9 @@ export default function RootLayout(){
           Authorization</Button></p>
         <p><Button className="hover:bg-green-300">Create account</Button></p> 
         <p><Button className="hover:bg-green-300" onClick={signOut}>Logout</Button></p>  
+        
       </div>
+      
   )
 
 }

@@ -131,7 +131,7 @@ export const getTokens = () => {
 				saveTokensToLocalStorage(access_token, refresh_token)
 				console.log('гет токен сработал и положил токены в лс')
 				window.localStorage.setItem('id_token', data.id_token)
-				window.location.replace('/myPersonalAccount')
+				window.location.replace('/personal')
 			})
 			.catch(console.error)
 	} else {
