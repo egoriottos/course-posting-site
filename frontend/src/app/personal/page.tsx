@@ -1,4 +1,3 @@
-const PersonalPage = ()=>{
+export default function RootLayout(){
     return <div>Page</div>
 }
-export default PersonalPage

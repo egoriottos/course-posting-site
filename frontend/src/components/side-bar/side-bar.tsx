@@ -1,11 +1,24 @@
-import React from 'react'
+'use client'
+
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import { SideVars } from './sideVars';
 
 export const SideBar = () => {
+  const pathname = usePathname();
+
   return (
-    <div className= 'w-[15rem]'>
-        <div>puk</div>
-        <div>srenk</div>
-        <div>kek</div>
+    <div>
+      <h1>Current Pathname: {pathname}</h1>
+      {SideVars[pathname] ? (
+        SideVars[pathname].map((value: string, index: number) => (
+          <div key={index}>
+            {value}
+          </div>
+        ))
+      ) : (
+        <div>No items to display</div>
+      )}
     </div>
-  )
-}
+  );
+};

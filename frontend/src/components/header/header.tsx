@@ -2,19 +2,33 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { signOut } from '@/utils/token';
+import { authorise } from '@/utils/authorisationLogic';
 
 export const Header = () => {
+  const isLoggedIn = !!window.localStorage.getItem('token');
   return (
     <header className="flex justify-between sticky w-full p-4">
       <div className="flex gap-5" style={styles.buttonsContainer}>
       <Logo />
       <Button className="bg-green-600" style={{ width: '180px', marginRight: '10px' }}>Главная</Button>
-        <Profile />
+        <Catalog />
           <Teaching />
           <Settings />
           <AboutUs />
           <Help />
-        <ProfileImageButton />
+          {isLoggedIn ? (
+          <ProfileImageButton />
+        ) : (
+          <>
+            <Button className="bg-green-600" style={{ width: '180px' }} onClick={authorise}>
+              Войти
+            </Button>
+            <Button className="bg-green-600" style={{ width: '180px', marginRight: '50px' }} onClick={authorise}>
+              Регистрация
+            </Button>
+          </>
+        )}
 
       </div>
     </header>
@@ -41,11 +55,11 @@ const Settings = () => {
       onMouseEnter={() => setIsOpen(true)} 
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button style={styles.mainButton}>Настройки</button>
+      <button className="hover:bg-purple-600"style={styles.mainButton}>Настройки</button>
       {isOpen && (
         <div style={styles.dropdownContent}>
-          <button style={styles.dropdownButton}>Настройки профиля</button>
-          <button style={styles.dropdownButton}>Уведомления</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Настройки профиля</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Уведомления</button>
         </div>
       )}
     </div>
@@ -67,6 +81,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   logoContainer: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: '0px'
   },
   profileLabel: {
     display: 'inline-block',
@@ -96,6 +111,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   dropdownContainer: {
     position: 'relative',
     display: 'inline-block',
+    
   },
   mainButton: {
     padding: '10px 20px',
@@ -112,10 +128,11 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   dropdownButton: {
     padding: '10px 20px',
-    backgroundColor: '#fff',
+    backgroundColor: 'green-600',
     border: 'none',
     textAlign: 'left',
     cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
   }
 };
 
@@ -138,11 +155,11 @@ const AboutUs = () => {
       onMouseEnter={() => setIsOpen(true)} 
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button style={styles.mainButton}>О нас</button>
+      <button className="hover:bg-purple-600"style={styles.mainButton}>Мы</button>
       {isOpen && (
         <div style={styles.dropdownContent}>
-          <button style={styles.dropdownButton}>О проекте</button>
-          <button style={styles.dropdownButton}>Наша команда</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>О проекте</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Наша команда</button>
         </div>
       )}
     </div>
@@ -157,22 +174,22 @@ const Help = () => {
       onMouseEnter={() => setIsOpen(true)} 
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button style={styles.mainButton}>Помощь</button>
+      <button className="hover:bg-purple-600"style={styles.mainButton}>Помощь</button>
       {isOpen && (
         <div style={styles.dropdownContent}>
-          <button style={styles.dropdownButton}>Задайте нам вопрос</button>
-          <button style={styles.dropdownButton}>Как оплатить</button>
-          <button style={styles.dropdownButton}>Политика конфиденциальности</button>
-          <button style={styles.dropdownButton}>О проекте</button>
-          <button style={styles.dropdownButton}>Студентам</button>
-          <button style={styles.dropdownButton}>Учителям</button>
-          <button style={styles.dropdownButton}>Прочее</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Задайте нам вопрос</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Как оплатить</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Политика конфиденциальности</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>О проекте</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Студентам</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Учителям</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Прочее</button>
         </div>
       )}
     </div>
   );
 }
-const Profile = () => {
+const Catalog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -181,14 +198,14 @@ const Profile = () => {
       onMouseEnter={() => setIsOpen(true)} 
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button style={styles.mainButton}>Каталог</button>
+      <button className="hover:bg-purple-600" style={styles.mainButton}>Каталог</button>
       {isOpen && (
         <div style={styles.dropdownContent}>
-          <button style={styles.dropdownButton}>Инностранные языки</button>
-          <button style={styles.dropdownButton}>Бизнес и менеджмент</button>
-          <button style={styles.dropdownButton}>Творчество и дизайн</button>
-          <button style={styles.dropdownButton}>Информационные технологии</button>
-          <button style={styles.dropdownButton}>Педагогика</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Инностранные языки</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Бизнес и менеджмент</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Творчество и дизайн</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Информационные технологии</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Педагогика</button>
         </div>
       )}
     </div>
@@ -231,9 +248,9 @@ const ProfileImageButton = () => {
       </label>
       {isOpen && (
         <div style={styles.dropdownContent}>
-          <button style={styles.dropdownButton}>Перейти в профиль</button>
-          <button style={styles.dropdownButton}>Баланс</button>
-          <button style={styles.dropdownButton}>Выход</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Перейти в профиль</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Баланс</button>
+          <button className="hover:bg-red-600" style={styles.dropdownButton} onClick={signOut}>Выход</button>
         </div>
       )}
     </div>
@@ -248,11 +265,11 @@ const Teaching = () => {
       onMouseEnter={() => setIsOpen(true)} 
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button style={styles.mainButton}>Преподавание</button>
+      <button className="hover:bg-purple-600"style={styles.mainButton}>Преподавание</button>
       {isOpen && (
         <div style={styles.dropdownContent}>
-          <button style={styles.dropdownButton}>Создать курс</button>
-          <button style={styles.dropdownButton}>Редактировать курс</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Создать курс</button>
+          <button className="hover:bg-green-600" style={styles.dropdownButton}>Редактировать курс</button>
         </div>
       )}
     </div>
