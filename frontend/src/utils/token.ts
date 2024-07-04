@@ -3,6 +3,7 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import queryString from 'query-string'
 import { TOKEN_URL } from './authorisationLogic'
+import { UserRole } from '@/types/user-role'
 
 export type TokenType = {
 	access_token: string
@@ -65,7 +66,7 @@ export type JwtPayloadType = {
 	exp: string
 	preferred_username: string
 	resource_access: {
-		'spring-client': {
+		'user-service': {
 			roles: string[]
 		}
 	}
@@ -83,6 +84,16 @@ export const getDecodedToken = (): JwtPayloadType => {
 export const getOrCreateTokens = (): TokenType | null => {
 	const tokens = getTokens()
 	return tokens ? tokens : null
+}
+export function getUserRole(): UserRole | undefined {
+    if (isTokenInLS()) {
+        const decodedToken = getDecodedToken()
+        const roles = decodedToken?.resource_access?.['user-service']?.roles
+
+        if (roles?.includes('client-student')) return 'student'
+        if (roles?.includes('client-teacher')) return 'teacher'
+        if (roles?.includes('client-admin')) return 'admin'
+    }
 }
 export function signOut() {
 	if (typeof window !== 'undefined') {

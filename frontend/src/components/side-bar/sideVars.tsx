@@ -1,10 +1,37 @@
-export const SideVars = {
-    '/src/app/personal': [
-        'Личные данные',
-        'Сертификаты',
-        'Баланс',
-        'История платежей',
-        'Учеба',
-        'Преподавание'
-    ]
-} as Record<string,string[]>
+type SideBarEntry={
+    text:string,
+    link:string
+};
+type SideBarMenu =Record<string, SideBarEntry[]>
+type SideVars= Record<string,SideBarMenu>
+export const SideVars= {
+    'student':{
+    '/personal': [
+        {
+        text:'Личные данные',
+        link:'/personal/profile'
+        },
+        {
+        text:'Уведомления',
+        link:'personal/notifications'
+        },
+        {
+        text:'Сертификаты',
+        link:'personal/certificates'
+        },
+        {
+        text:'Баланс',
+        link: 'personal/balance'
+        },
+        {
+        text:'История платежей',
+        link:'personal/payment'
+        },
+        {
+        text:'Учеба',
+        link:'personal/lessons'
+        },
+      ],
+       '/': [],
+    }
+} as SideVars

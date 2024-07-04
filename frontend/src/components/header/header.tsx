@@ -5,6 +5,10 @@ import Link from 'next/link';
 import { signOut } from '@/utils/token';
 import { authorise } from '@/utils/authorisationLogic';
 
+const isRouteActive = (pathname:string,url:string)=>{
+  return pathname = url
+}
+
 export const Header = () => {
   const isLoggedIn = !!window.localStorage.getItem('token');
   return (

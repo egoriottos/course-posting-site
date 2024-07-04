@@ -8,7 +8,7 @@ export const Container = ({
     children: React.ReactNode
 }>)=>{
   return (
-    <div className='flex w-full p-4'>
+    <div className='flex w-full p-7 bg-white'>
         <SideBar/>
     <div className='w-full flex justify-center'>
         <Card className='w-3/4 p-4'>{children}</Card>
