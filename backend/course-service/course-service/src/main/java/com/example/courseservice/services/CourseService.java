@@ -4,6 +4,7 @@ import com.example.courseservice.commands.course.CreateCourseCommand;
 import com.example.courseservice.commands.course.UpdateCourseCommand;
 import com.example.courseservice.entities.Course;
 import com.example.courseservice.repositories.CourseRepository;
+import com.example.courseservice.repositories.CustomCourseRepository;
 import com.example.courseservice.repositories.ModuleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
+    private final CustomCourseRepository courseCustomRepository;
     @Transactional
     public void createCourse(CreateCourseCommand course) {
         var courseEntity = Course.builder()

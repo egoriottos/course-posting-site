@@ -32,6 +32,9 @@ public class User implements UserDetails {
     private String lastname;
     @Column(nullable = false, length = 12)
     private String phone;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image profileImage;
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     private Date createdAt;

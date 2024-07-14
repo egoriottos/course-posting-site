@@ -1,5 +1,6 @@
 package com.example.userservice.query.requests;
 
+import com.example.userservice.domain.entity.Image;
 import com.example.userservice.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -10,7 +11,10 @@ import java.util.Date;
 public class RequestUserData {
     private String login;
 
+    private Image profileImage;
+
     private String email;
+
 
     private String firstname;
 

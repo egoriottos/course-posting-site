@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import DoubleListItem from './doubleListUtils/doubleListItem';
 
 export type ListData = { label?: ReactNode | string; content?: ReactNode | string }
@@ -9,7 +9,7 @@ interface DoubleListProps {
 
 const DoubleList = ({ listData,...props }: DoubleListProps) => {
 	return (
-		<div className='flex flex-col justify-around h-full' {...props} >
+		<div className='flex flex-col justify-around h-full text-lg' {...props} >
 			{listData.map((listItem: ListData, index: number) => {
 				return (
 					<DoubleListItem

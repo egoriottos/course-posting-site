@@ -1,5 +1,6 @@
 package com.example.userservice.commands;
 
+import com.example.userservice.domain.entity.Image;
 import com.example.userservice.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

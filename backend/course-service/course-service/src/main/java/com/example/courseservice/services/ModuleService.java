@@ -5,6 +5,7 @@ import com.example.courseservice.commands.module.UpdateModuleCommand;
 import com.example.courseservice.entities.Course;
 import com.example.courseservice.entities.Module;
 import com.example.courseservice.repositories.CourseRepository;
+import com.example.courseservice.repositories.CustomModuleRepository;
 import com.example.courseservice.repositories.ModuleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.*;
 public class ModuleService {
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
+    private final CustomModuleRepository customModuleRepository;
     //Назначение модуля к конкретному курсу.
 
     //Получение списка всех модулей.

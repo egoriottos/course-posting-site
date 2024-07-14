@@ -1,6 +1,7 @@
 package com.example.userservice.services;
 
 import com.example.userservice.commands.UpdateUserCommand;
+import com.example.userservice.domain.entity.Image;
 import com.example.userservice.domain.entity.Student;
 import com.example.userservice.domain.entity.Teacher;
 import com.example.userservice.domain.entity.User;
@@ -18,7 +19,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -33,7 +37,7 @@ public class UserService {
     private final CustomUserRepository customUserRepository;
     private final TeacherRepository teacherRepository;
     private final ModelMapper modelMapper;
-
+    private final ImageService imageService;
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void createUser(RequestUserData createUserCommand) {
         var user = User.builder()
@@ -41,6 +45,7 @@ public class UserService {
                 .email(createUserCommand.getEmail())
                 .firstname(createUserCommand.getFirstname())
                 .lastname(createUserCommand.getLastname())
+                .profileImage(createUserCommand.getProfileImage())
                 .phone(createUserCommand.getPhone())
                 .dateOfBirth(createUserCommand.getDateOfBirth())
                 .roles(createUserCommand.getRoles())
@@ -95,4 +100,31 @@ public class UserService {
 
     }
 
+    public User updateUserImage(Long userId, MultipartFile file, String directory) throws IOException {
+        // Сохраняем изображение
+        Image savedImage = imageService.save(directory, file);
+
+        // Находим пользователя по ID
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Обновляем ссылку на изображение
+        user.setProfileImage(savedImage);
+
+        // Сохраняем изменения в БД
+        return userRepository.save(user);
+    }
+    public User assignImageToUser(Long userId, Long imageId) {
+        // Находим пользователя по ID
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Находим изображение по ID
+        Image image =imageService.getImageById(imageId);
+        // Обновляем ссылку на изображение
+        user.setProfileImage(image);
+
+        // Сохраняем изменения в БД
+        return userRepository.save(user);
+    }
 }

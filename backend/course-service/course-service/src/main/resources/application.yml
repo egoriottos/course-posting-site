@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 8081
   ssl:
     enabled: true
     key-store-type: PKCS12
-    key-store: D:\course_app\backend\user_service\user-service\certificate.p12
+    key-store: D:\course_app\backend\course-service\course-service\certificate.p12
     key-store-password: 1PwCgNAb
 
 spring:
@@ -21,8 +21,8 @@ spring:
         format_sql: true
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:6432/userservicedb
-    username: userservice
+    url: jdbc:postgresql://localhost:6432/courseervicedb
+    username: courseservice
     password: 12345
 
 keycloak:

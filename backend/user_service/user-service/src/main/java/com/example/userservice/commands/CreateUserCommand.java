@@ -1,5 +1,6 @@
 package com.example.userservice.commands;
 
+import com.example.userservice.domain.entity.Image;
 import com.example.userservice.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
@@ -17,6 +18,8 @@ public class CreateUserCommand {
     private String firstname;
 
     private String lastname;
+
+    private Image profileImage;
 
     private String phone;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

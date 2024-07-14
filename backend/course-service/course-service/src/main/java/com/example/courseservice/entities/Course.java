@@ -26,8 +26,6 @@ public class Course {
     @Column(nullable = false)
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Module> modules;
-    @Embedded
-    private DateClass dateClass;
     private Date createdAt;
     private Date updatedAt;
 }
