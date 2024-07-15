@@ -1,13 +1,16 @@
 package com.example.courseservice.services;
 
-import com.example.courseservice.commands.course.CreateCourseCommand;
-import com.example.courseservice.commands.course.UpdateCourseCommand;
-import com.example.courseservice.entities.Course;
-import com.example.courseservice.repositories.CourseRepository;
-import com.example.courseservice.repositories.CustomCourseRepository;
-import com.example.courseservice.repositories.ModuleRepository;
+import com.example.courseservice.application.commands.course.CourseResponse;
+import com.example.courseservice.application.commands.course.CreateCourseCommand;
+import com.example.courseservice.application.commands.course.UpdateCourseCommand;
+import com.example.courseservice.application.commands.course.query.CourseQuery;
+import com.example.courseservice.domain.entities.Course;
+import com.example.courseservice.infrostructure.config.repositories.CourseRepository;
+import com.example.courseservice.infrostructure.config.repositories.CustomCourseRepository;
+import com.example.courseservice.infrostructure.config.repositories.ModuleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
     private final CustomCourseRepository courseCustomRepository;
+    private final ModelMapper modelMapper;
     @Transactional
     public void createCourse(CreateCourseCommand course) {
         var courseEntity = Course.builder()
@@ -69,5 +73,9 @@ public class CourseService {
             courseEntity.setUpdatedAt((Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())));
         }
         return courseRepository.save(courseEntity);
+    }
+    public List<CourseResponse> search(CourseQuery params){
+        List<Course> courses = courseCustomRepository.search(params);
+        return courses.stream().map(i->modelMapper.map(i, CourseResponse.class)).toList();
     }
 }

@@ -1,20 +1,24 @@
 package com.example.courseservice.services;
 
-import com.example.courseservice.commands.module.CreateModuleCommand;
-import com.example.courseservice.commands.module.UpdateModuleCommand;
-import com.example.courseservice.entities.Course;
-import com.example.courseservice.entities.Module;
-import com.example.courseservice.repositories.CourseRepository;
-import com.example.courseservice.repositories.CustomModuleRepository;
-import com.example.courseservice.repositories.ModuleRepository;
+import com.example.courseservice.application.commands.module.CreateModuleCommand;
+import com.example.courseservice.application.commands.module.ModuleResponse;
+import com.example.courseservice.application.commands.module.UpdateModuleCommand;
+import com.example.courseservice.application.commands.module.query.ModuleQuery;
+import com.example.courseservice.domain.entities.Course;
+import com.example.courseservice.domain.entities.Module;
+import com.example.courseservice.infrostructure.config.repositories.CourseRepository;
+import com.example.courseservice.infrostructure.config.repositories.CustomModuleRepository;
+import com.example.courseservice.infrostructure.config.repositories.ModuleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,6 +27,7 @@ public class ModuleService {
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
     private final CustomModuleRepository customModuleRepository;
+    private final ModelMapper modelMapper;
     //Назначение модуля к конкретному курсу.
 
     //Получение списка всех модулей.
@@ -38,7 +43,7 @@ public class ModuleService {
         var moduleEntity = Module.builder()
                 .course(course)
                 .title(module.getTitle())
-                .order(maxOrder + 1)
+                .serialNumber(maxOrder + 1)
                 .description(module.getDescription())
                 .lessonsId(module.getLessonsId())
                 .quizId(module.getQuizId())
@@ -57,11 +62,11 @@ public class ModuleService {
 
         Module module = moduleOptional.get();
         Course course = module.getCourse();
-        int order = module.getOrder();
+        int order = module.getSerialNumber();
 
-        List<Module> modules = moduleRepository.findByCourseAndOrderGreaterThan(course, order);
+        List<Module> modules = moduleRepository.findByCourseAndSerialNumberGreaterThan(course, order);
         for (Module m : modules) {
-            m.setOrder(m.getOrder() - 1);
+            m.setSerialNumber(m.getSerialNumber() - 1);
             moduleRepository.save(m);
         }
     }
@@ -76,12 +81,12 @@ public class ModuleService {
         var moduleEntity = moduleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if (!moduleEntity.getDescription().equals(command.getDescription())
                 || !moduleEntity.getLessonsId().equals(command.getLessonsId())
-                || !moduleEntity.getOrder().equals(command.getOrder())
+                || !moduleEntity.getSerialNumber().equals(command.getOrder())
                 || !moduleEntity.getCourse().equals(command.getCourse())
                 || !moduleEntity.getTitle().equals(command.getTitle())
                 || !moduleEntity.getQuizId().equals(command.getQuizId())) {
             moduleEntity.setTitle(command.getTitle());
-            moduleEntity.setOrder(command.getOrder());
+            moduleEntity.setSerialNumber(command.getOrder());
             moduleEntity.setDescription(command.getDescription());
             moduleEntity.setLessonsId(command.getLessonsId());
             moduleEntity.setCourse(command.getCourse());
@@ -108,7 +113,7 @@ public class ModuleService {
 
         Module module = moduleOptional.get();
         Course course = module.getCourse();
-        int currentOrder = module.getOrder();
+        int currentOrder = module.getSerialNumber();
 
         if (newOrder < 1 || newOrder > moduleRepository.countByCourse(course)) {
             throw new IllegalArgumentException("Invalid order");
@@ -116,21 +121,25 @@ public class ModuleService {
 
         if (newOrder > currentOrder) {
             // Сдвигаем вниз
-            List<Module> modules = moduleRepository.findByCourseAndOrderBetween(course, currentOrder + 1, newOrder);
+            List<Module> modules = moduleRepository.findByCourseAndSerialNumberBetween(course, currentOrder + 1, newOrder);
             for (Module m : modules) {
-                m.setOrder(m.getOrder() - 1);
+                m.setSerialNumber(m.getSerialNumber() - 1);
                 moduleRepository.save(m);
             }
         } else if (newOrder < currentOrder) {
             // Сдвигаем вверх
-            List<Module> modules = moduleRepository.findByCourseAndOrderBetween(course, newOrder, currentOrder - 1);
+            List<Module> modules = moduleRepository.findByCourseAndSerialNumberBetween(course, newOrder, currentOrder - 1);
             for (Module m : modules) {
-                m.setOrder(m.getOrder() + 1);
+                m.setSerialNumber(m.getSerialNumber() + 1);
                 moduleRepository.save(m);
             }
         }
 
-        module.setOrder(newOrder);
+        module.setSerialNumber(newOrder);
         moduleRepository.save(module);
+    }
+    public List<ModuleResponse> search(ModuleQuery query){
+        List<Module> modules = customModuleRepository.search(query);
+        return modules.stream().map(i->modelMapper.map(i, ModuleResponse.class)).collect(Collectors.toList());
     }
 }

@@ -1,0 +1,41 @@
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: D:\course_app\backend\course-service\course-service\certificate.p12
+    key-store-password: 1PwCgNAb
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.dppmai.ru/realms/group-2
+          jwk-uri: https://auth.dppmai.ru/realms/group-2/protocol/openid-connect/certs
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access=true:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/courseservicedb
+    username: course
+    password: secret
+
+keycloak:
+  serverUrl: https://auth.dppmai.ru
+  realm: group-2
+  clientId: user-service
+  username: admin
+  password: HVG-Rqf-5PV-Lp6
+  realmName: group-2
+grpc:
+  server:
+    port: 9090
+
