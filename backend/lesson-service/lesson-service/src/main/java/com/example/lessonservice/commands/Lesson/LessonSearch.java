@@ -33,8 +33,8 @@ public class LessonSearch {
         this.published = published;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.limit = limit;
-        this.offset = offset;
+        this.limit = 15;
+        this.offset = 0;
     }
 
     private Long id;

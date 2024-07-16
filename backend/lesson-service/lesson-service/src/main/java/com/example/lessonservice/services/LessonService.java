@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class LessonService {
     private final ModelMapper modelMapper;
 
     @Transactional
-    public void createLesson(CreateLessonCommand createLessonCommand) {
+    public LessonResponse createLesson(CreateLessonCommand createLessonCommand) {
         var lesson = Lesson.builder()
                 .attachments(createLessonCommand.getAttachments())
                 .contentList(createLessonCommand.getContentList())
@@ -37,10 +36,10 @@ public class LessonService {
                 .published(createLessonCommand.isPublished())
                 .createdAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .build();
-         lessonRepository.save(lesson);
+         return modelMapper.map(lessonRepository.save(lesson),LessonResponse.class);
     }
     @Transactional
-    public void updateLesson(long id, UpdateLessonCommand lesson) {
+    public LessonResponse updateLesson(long id, UpdateLessonCommand lesson) {
         var lessonToUpdate = lessonRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if(!lessonToUpdate.getTitle().equals(lesson.getTitle())
                 || !lessonToUpdate.getDescription().equals(lesson.getDescription())
@@ -56,7 +55,7 @@ public class LessonService {
             lessonToUpdate.setCourseId(lesson.getCourseId());
             lessonToUpdate.setPublished(lesson.isPublished());
             lessonToUpdate.setUpdatedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-            lessonRepository.save(lessonToUpdate);
+            return modelMapper.map(lessonRepository.save(lessonToUpdate),LessonResponse.class);
         }
         else {
             throw new EntityNotFoundException("Lesson not found");
@@ -72,5 +71,11 @@ public class LessonService {
         return lessons.stream().map(obj->modelMapper.map(obj, LessonResponse.class)).toList();
 
     }
+    public LessonResponse getLesson(long id) {
+        return modelMapper.map(lessonRepository.findById(id),LessonResponse.class);
+    }
 
+    public List<LessonResponse> getLessonsByCourseId(long id){
+        return lessonRepository.findAllByCourseId(id).stream().map(obj->modelMapper.map(obj, LessonResponse.class)).toList();
+    }
 }

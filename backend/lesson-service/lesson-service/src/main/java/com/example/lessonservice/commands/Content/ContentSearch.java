@@ -21,8 +21,8 @@ public class ContentSearch {
         this.url = url;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.limit = limit;
-        this.offset = offset;
+        this.limit = 15;
+        this.offset = 0;
     }
 
     private Long id;

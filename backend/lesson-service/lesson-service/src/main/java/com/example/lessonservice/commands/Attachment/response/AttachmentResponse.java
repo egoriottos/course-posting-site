@@ -25,5 +25,4 @@ public class AttachmentResponse {
 
     private Date createdAt;
 
-    private Date updatedAt;
 }

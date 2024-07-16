@@ -30,7 +30,7 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Attachment> attachments;
 
-    private Long courseId;
+    private Long courseId;//модульАйди
 
     private boolean published;
 

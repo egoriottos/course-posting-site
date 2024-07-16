@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Date;
 import java.util.List;
 @Entity
-@Table(name = "module")
+@Table(name = "modules")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

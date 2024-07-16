@@ -30,7 +30,7 @@ public class AttachmentService {
     private final ModelMapper modelMapper;
 
     @Transactional
-    public void create(MultipartFile file, CreateAttachmentCommand createAttachmentCommand) throws IOException { // загрузить вложение
+    public Attachment create(MultipartFile file, CreateAttachmentCommand createAttachmentCommand) throws IOException { // загрузить вложение
        String fileName = file.getOriginalFilename();
        String filePath = uploadDIR + File.separator + fileName;
 
@@ -43,7 +43,7 @@ public class AttachmentService {
        attachment.setLesson(createAttachmentCommand.getLesson());
        attachment.setCreatedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 
-       attachmentRepository.save(attachment);
+       return attachmentRepository.save(attachment);
     }
 
     public List<AttachmentResponse> search(AttachmentSearch search){

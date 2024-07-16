@@ -1,5 +1,4 @@
 server:
-  port: 8080
   ssl:
     enabled: true
     key-store-type: PKCS12
@@ -21,7 +20,7 @@ spring:
         boot:
           allow_jdbc_metadata_access=true:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/courseservicedb
@@ -39,3 +38,9 @@ grpc:
   server:
     port: 9090
 
+logging:
+  level:
+    org:
+      hibernate: TRACE
+      springframework:
+        jdbc: TRACE

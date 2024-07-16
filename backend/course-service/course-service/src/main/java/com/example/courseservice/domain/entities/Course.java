@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "course")
+@Table(name = "courses")
 @Builder
 public class Course {
     @Id
@@ -23,7 +23,7 @@ public class Course {
     private String description;
     @Column(nullable = false)
     private String author;
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Module> modules;
     private Date createdAt;
     private Date updatedAt;
