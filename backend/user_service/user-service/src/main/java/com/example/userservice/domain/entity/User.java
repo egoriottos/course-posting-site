@@ -1,6 +1,6 @@
 package com.example.userservice.domain.entity;
 
-import com.example.userservice.enums.Roles;
+import com.example.userservice.domain.entity.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 @Entity

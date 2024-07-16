@@ -1,6 +1,6 @@
 package com.example.userservice.responses;
 
-import com.example.userservice.enums.Roles;
+import com.example.userservice.domain.entity.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

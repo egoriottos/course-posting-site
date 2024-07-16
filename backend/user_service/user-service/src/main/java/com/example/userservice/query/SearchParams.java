@@ -1,10 +1,9 @@
 package com.example.userservice.query;
 
-import com.example.userservice.enums.Roles;
+import com.example.userservice.domain.entity.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;

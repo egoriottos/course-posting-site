@@ -1,12 +1,10 @@
 package com.example.userservice.commands;
 
 import com.example.userservice.domain.entity.Image;
-import com.example.userservice.enums.Roles;
+import com.example.userservice.domain.entity.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 import lombok.Data;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data

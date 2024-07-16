@@ -5,7 +5,7 @@ import com.example.userservice.domain.entity.Image;
 import com.example.userservice.domain.entity.Student;
 import com.example.userservice.domain.entity.Teacher;
 import com.example.userservice.domain.entity.User;
-import com.example.userservice.enums.Roles;
+import com.example.userservice.domain.entity.enums.Roles;
 import com.example.userservice.query.SearchParams;
 import com.example.userservice.query.requests.RequestUserData;
 import com.example.userservice.repository.CustomUserRepository;

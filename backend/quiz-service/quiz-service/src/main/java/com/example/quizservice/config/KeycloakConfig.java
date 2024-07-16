@@ -1,14 +1,13 @@
-package com.example.userservice.config;
+package com.example.quizservice.config;
 
-import com.example.userservice.config.converters.JwtAuthConverter;
+import com.example.quizservice.config.converter.JwtAuthConverter;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.SessionManagementFilter;
@@ -48,14 +47,11 @@ public class KeycloakConfig {
         http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizer->{
-                    authorizer.requestMatchers("api/user/create").permitAll().anyRequest().authenticated();
+                    authorizer.requestMatchers("/**").permitAll(); //todo
                 });
         http.oauth2ResourceServer((oauth2)->
                 oauth2.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter)));
         http.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.example.userservice.converters;
+package com.example.userservice.config.converters;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
