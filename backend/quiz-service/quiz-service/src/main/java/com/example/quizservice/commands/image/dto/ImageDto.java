@@ -1,4 +1,4 @@
-package com.example.quizservice.commands.image.response;
+package com.example.quizservice.commands.image.dto;
 
 import com.example.quizservice.domain.entity.Question;
 import lombok.Data;

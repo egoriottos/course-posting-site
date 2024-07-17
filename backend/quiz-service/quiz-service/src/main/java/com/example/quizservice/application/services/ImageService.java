@@ -1,7 +1,7 @@
 package com.example.quizservice.application.services;
 
 import com.example.quizservice.commands.image.SearchImageParams;
-import com.example.quizservice.commands.image.response.ImageDto;
+import com.example.quizservice.commands.image.dto.ImageDto;
 import com.example.quizservice.domain.entity.Image;
 import com.example.quizservice.repositories.ImageRepository;
 import com.example.quizservice.repositories.customRepositories.CustomImageRepository;
@@ -42,16 +42,16 @@ public class ImageService {
         Image image = new Image(path.toString());
         imageRepository.save(image);
     }
-
+    //получаем изображение по айди
     public ImageDto getImageById(Long id) {
        return modelMapper.map( imageRepository.findById(id), ImageDto.class);
     }
-
+    //получаем все изображения
     public List<ImageDto> getAllImages() {
         return imageRepository.findAll().
                 stream().map(image -> modelMapper.map(image, ImageDto.class)).collect(Collectors.toList());
     }
-
+    //обновляем картинку , предварительно найдя ее по айди
     public ImageDto updateImageById(Long id, String directory, MultipartFile file) throws IOException {
         // Находим существующее изображение в базе данных
         Optional<Image> existingImageOpt = imageRepository.findById(id);
@@ -81,14 +81,16 @@ public class ImageService {
         existingImage.setUrl(newPath.toString());
         return modelMapper.map(imageRepository.save(existingImage), ImageDto.class);
     }
+    //удаляем по айди картинку
     public void deleteImageById(Long id) {
         imageRepository.deleteById(id);
     }
+    //нахожу все картинки которые находятся в одном вопросе(предварительно их может быть больше одной
     public List<ImageDto> getAllImagesByQuestionId(Long id) {
         return imageRepository.findAllByQuestionId(id).stream()
                 .map(object -> modelMapper.map(object, ImageDto.class)).collect(Collectors.toList());
     }
-
+    //поиск картинок по одному/нескольким параметрам возвращает до 15 результатов
     public List<ImageDto> search(SearchImageParams params){
         return customImageRepository.search(params)
                 .stream().map(object -> modelMapper.map(object, ImageDto.class)).collect(Collectors.toList());
