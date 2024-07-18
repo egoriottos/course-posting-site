@@ -1,4 +1,4 @@
-package com.example.quizservice.commands.question.response;
+package com.example.quizservice.commands.question.dto;
 
 import com.example.quizservice.domain.entity.Image;
 import com.example.quizservice.domain.enums.QuestionType;

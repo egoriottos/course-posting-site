@@ -3,8 +3,7 @@ package com.example.quizservice.application.services;
 import com.example.quizservice.commands.question.CreateQuestionCommand;
 import com.example.quizservice.commands.question.SearchQuestionParams;
 import com.example.quizservice.commands.question.UpdateQuestionCommand;
-import com.example.quizservice.commands.question.response.QuestionDto;
-import com.example.quizservice.domain.entity.Image;
+import com.example.quizservice.commands.question.dto.QuestionDto;
 import com.example.quizservice.domain.entity.Question;
 import com.example.quizservice.domain.enums.QuestionType;
 import com.example.quizservice.repositories.QuestionRepository;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
-    private final ImageService imageService;
     private final QuestionRepository questionRepository;
     private final CustomQuestionRepository questionCustomRepository;
     private final ModelMapper modelMapper;

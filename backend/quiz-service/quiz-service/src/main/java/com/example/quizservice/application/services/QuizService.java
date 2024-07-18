@@ -3,7 +3,7 @@ package com.example.quizservice.application.services;
 import com.example.quizservice.commands.quiz.CreateQuizCommand;
 import com.example.quizservice.commands.quiz.SearchQuizParams;
 import com.example.quizservice.commands.quiz.UpdateQuizCommand;
-import com.example.quizservice.commands.quiz.response.QuizDto;
+import com.example.quizservice.commands.quiz.dto.QuizDto;
 import com.example.quizservice.domain.entity.Quiz;
 import com.example.quizservice.repositories.QuizRepository;
 import com.example.quizservice.repositories.customRepositories.CustomQuizRepository;
@@ -65,6 +65,7 @@ public class QuizService {
     public void deleteQuiz(Long id){
         quizRepository.deleteById(id);
     }
+
     //поиск списка тестов по одному/нескольким полям
     public List<QuizDto> search(SearchQuizParams params){
        return quizCustomRepository.search(params).stream()
