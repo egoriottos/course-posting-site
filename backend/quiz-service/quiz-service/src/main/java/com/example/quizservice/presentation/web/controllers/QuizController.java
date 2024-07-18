@@ -20,7 +20,7 @@ public class QuizController {
     private final ModelMapper modelMapper;
 
     @PostMapping("/create")
-    public String createquiz(@RequestBody CreateQuizCommand command){
+    public String createQuiz(@RequestBody CreateQuizCommand command){
         quizService.createQuiz(command);
         return "Quiz created " + command.getTitle() + command.getDescription() + command.getQuestions() + command.getLessonId();
     }
@@ -44,7 +44,7 @@ public class QuizController {
         return "Quiz deleted " + id;
     }
     @PostMapping("/search")
-    public List<QuizResponse> search(SearchQuizParams params){
+    public List<QuizResponse> search(@RequestBody SearchQuizParams params){
         return quizService.search(params).stream()
                 .map(obj->modelMapper.map(obj, QuizResponse.class)).collect(Collectors.toList());
     }

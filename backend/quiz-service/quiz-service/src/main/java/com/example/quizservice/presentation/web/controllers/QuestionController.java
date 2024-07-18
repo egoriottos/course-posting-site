@@ -31,7 +31,7 @@ public class QuestionController {
     }
 
     @PostMapping("/search")
-    public List<QuestionResponse> search(SearchQuestionParams questionParams){
+    public List<QuestionResponse> search(@RequestBody SearchQuestionParams questionParams){
         return questionService.search(questionParams).stream()
                 .map(obj -> modelMapper.map(obj, QuestionResponse.class)).collect(Collectors.toList());
     }
@@ -50,7 +50,7 @@ public class QuestionController {
         return modelMapper.map(questionService.getQuestionById(id), QuestionResponse.class);
     }
     @PutMapping("/update/{id}")
-    public String updateQuestion(@PathVariable Long id, UpdateQuestionCommand updateQuestionCommand) {
+    public String updateQuestion(@PathVariable Long id,@RequestBody UpdateQuestionCommand updateQuestionCommand) {
        questionService.updateQuestion(id, updateQuestionCommand);
        return "Question updated " + updateQuestionCommand.getText()+" "+updateQuestionCommand.getOptions()+" "+updateQuestionCommand.getCorrectAnswers()+" "+updateQuestionCommand.getImages()+" "+updateQuestionCommand.getType();
     }

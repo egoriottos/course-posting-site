@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -28,6 +29,7 @@ public class QuestionService {
     //созадть вопрос
     //обратите внимание что сначала создается картинка а потом уже вставляется в вопрос
     // она не загружается одновременно с вопросом
+    @Transactional
     public void createQuestion(CreateQuestionCommand command){
         var question = Question.builder()
                 .text(command.getText())
@@ -56,6 +58,7 @@ public class QuestionService {
 //    обновить все параметры вопроса кроме картинки.
 //    Картинка будет обновляться в своей базе, а вопрос уже будет вызывать обновленную картинку,
 //    пока что не придумал как улучшить этот метод
+    @Transactional
     public void updateQuestion(Long id, UpdateQuestionCommand command){
         var question = questionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if(!question.getText().equals(command.getText())
@@ -72,6 +75,7 @@ public class QuestionService {
         }
     }
     // удалить вопрос
+    @Transactional
     public void deleteQuestion(Long id){
         questionRepository.deleteById(id);
     }

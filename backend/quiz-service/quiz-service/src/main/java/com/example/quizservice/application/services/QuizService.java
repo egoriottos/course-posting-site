@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,6 +26,7 @@ public class QuizService {
     private final CustomQuizRepository quizCustomRepository;
     private final ModelMapper modelMapper;
     //создание теста
+    @Transactional
     public void createQuiz(CreateQuizCommand command){
         var quiz = Quiz.builder()
                 .title(command.getTitle())
@@ -46,6 +48,7 @@ public class QuizService {
         return quizzes.stream().map(obj->modelMapper.map(obj, QuizDto.class)).collect(Collectors.toList());
     }
     //обновление теста
+    @Transactional
     public void updateQuiz(Long id, UpdateQuizCommand command){
         var quiz = quizRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if(!quiz.getTitle().equals(command.getTitle())
@@ -62,6 +65,7 @@ public class QuizService {
         }
     }
     //удаление теста
+    @Transactional
     public void deleteQuiz(Long id){
         quizRepository.deleteById(id);
     }

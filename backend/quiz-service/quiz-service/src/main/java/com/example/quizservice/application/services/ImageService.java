@@ -8,6 +8,7 @@ import com.example.quizservice.repositories.customRepositories.CustomImageReposi
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class ImageService {
     private final CustomImageRepository customImageRepository;
     private final ModelMapper modelMapper;
     //создаем изображение
+    @Transactional
     public void create(String directory, MultipartFile file) throws IOException {
         // Создаем путь к файлу
         String fileName = file.getOriginalFilename();
@@ -51,6 +53,7 @@ public class ImageService {
         return imageRepository.findAll().
                 stream().map(image -> modelMapper.map(image, ImageDto.class)).collect(Collectors.toList());
     }
+    @Transactional
     //обновляем картинку , предварительно найдя ее по айди
     public ImageDto updateImageById(Long id, String directory, MultipartFile file) throws IOException {
         // Находим существующее изображение в базе данных
@@ -81,6 +84,7 @@ public class ImageService {
         existingImage.setUrl(newPath.toString());
         return modelMapper.map(imageRepository.save(existingImage), ImageDto.class);
     }
+    @Transactional
     //удаляем по айди картинку
     public void deleteImageById(Long id) {
         imageRepository.deleteById(id);

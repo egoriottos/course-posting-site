@@ -19,7 +19,7 @@ public class ImageController {
     private final ImageService imageService;
     private final ModelMapper modelMapper;
     @PostMapping("/create")
-    public String createImage(String directory, MultipartFile file) throws IOException {
+    public String createImage(@RequestParam String directory,@RequestParam MultipartFile file) throws IOException {
         imageService.create(directory, file);
         return "Image created " + file.getOriginalFilename();
     }
@@ -29,7 +29,7 @@ public class ImageController {
        return modelMapper.map(imageDto, ImageResponse.class);
     }
     @PutMapping("/update/{imageId}")
-    public String updateImage(@PathVariable long imageId, String directory,MultipartFile file)
+    public String updateImage(@PathVariable long imageId,@RequestParam String directory,@RequestParam MultipartFile file)
             throws IOException {
         imageService.updateImageById(imageId, directory, file);
         return "Image updated " + file.getOriginalFilename()+ " with id " + imageId;
