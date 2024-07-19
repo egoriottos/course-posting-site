@@ -35,6 +35,7 @@ public class UserLessonProgressService {
                 .completed(false)
                 .createdAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .build();
+        userLessonProgressRepository.save(lessonProgress);
     }
     @Transactional
     public void completeLessonProgress(Long userId, Long lessonId){
