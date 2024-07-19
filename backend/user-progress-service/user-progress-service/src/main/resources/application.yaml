@@ -1,0 +1,37 @@
+server:
+  port: 8082
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: D:\course_app\backend\user-progress-service\user-progress-service\certificate.p12
+    key-store-password: 1PwCgNAb
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.dppmai.ru/realms/group-2
+          jwk-uri: https://auth.dppmai.ru/realms/group-2/protocol/openid-connect/certs
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:6432/userprogressdb
+    username: userprogress
+    password: 12345
+
+keycloak:
+  serverUrl: https://auth.dppmai.ru
+  realm: group-2
+  clientId: user-service
+  username: admin
+  password: HVG-Rqf-5PV-Lp6
+  realmName: group-2
+grpc:
+  server:
+    port: 9090
