@@ -10,10 +10,10 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchCourseProgressParam {
-    public SearchCourseProgressParam(@JsonProperty("id") Long id,@JsonProperty("userId") Long userId,
-                                     @JsonProperty("courseId") Long courseId,@JsonProperty("progressPercentage") Double progressPercentage,
-                                     @JsonProperty("completed") Boolean completed,@JsonProperty("createdAt") Date createdAt,
-                                     @JsonProperty("updatedAt") Date updatedAt,@JsonProperty("completedLessons") List<Long> completedLessons,
+    public SearchCourseProgressParam(@JsonProperty("id") Long id, @JsonProperty("userId") Long userId,
+                                     @JsonProperty("courseId") Long courseId, @JsonProperty("progressPercentage") Double progressPercentage,
+                                     @JsonProperty("completed") Boolean completed, @JsonProperty("createdAt") Date createdAt,
+                                     @JsonProperty("updatedAt") Date updatedAt, @JsonProperty("completedLessons") List<Long> completedLessons,
                                      @JsonProperty("completedTests") List<Long> completedTests) {
         this.id = id;
         this.userId = userId;

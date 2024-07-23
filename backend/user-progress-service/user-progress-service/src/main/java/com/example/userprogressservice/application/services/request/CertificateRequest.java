@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CertificateRequest {
 
-        private Long userId;
-        private Long courseId;
+    private Long userId;
+    private Long courseId;
 }

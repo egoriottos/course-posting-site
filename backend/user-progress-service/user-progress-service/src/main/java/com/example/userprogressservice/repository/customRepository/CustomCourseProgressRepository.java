@@ -34,31 +34,31 @@ public class CustomCourseProgressRepository {
         }
         if (params.getCourseId() != null) {
             predicates.add(
-                    cb.equal(root.get("courseId"),params.getCourseId()));
+                    cb.equal(root.get("courseId"), params.getCourseId()));
         }
         if (params.getProgressPercentage() != null) {
             predicates.add(
-                    cb.equal(root.get("progressPercentage"),params.getProgressPercentage()));
+                    cb.equal(root.get("progressPercentage"), params.getProgressPercentage()));
         }
         if (params.getCompleted() != null) {
             predicates.add(
-                    cb.equal(root.get("completed"),params.getCompleted()));
+                    cb.equal(root.get("completed"), params.getCompleted()));
         }
         if (params.getCreatedAt() != null) {
             predicates.add(
-                    cb.equal(root.get("createdAt"),params.getCreatedAt()));
+                    cb.equal(root.get("createdAt"), params.getCreatedAt()));
         }
         if (params.getUpdatedAt() != null) {
             predicates.add(
-                    cb.equal(root.get("updatedAt"),params.getUpdatedAt()));
+                    cb.equal(root.get("updatedAt"), params.getUpdatedAt()));
         }
         if (params.getCompletedLessons() != null) {
             predicates.add(
-                    cb.equal(root.get("completedLessons"),params.getCompletedLessons()));
+                    cb.equal(root.get("completedLessons"), params.getCompletedLessons()));
         }
         if (params.getCompletedTests() != null) {
             predicates.add(
-                    cb.equal(root.get("completedTests"),params.getCompletedTests()));
+                    cb.equal(root.get("completedTests"), params.getCompletedTests()));
         }
 
         final Predicate[] a = new Predicate[0];

@@ -35,27 +35,27 @@ public class CustomLessonProgressRepository {
         }
         if (params.getCourseId() != null) {
             predicates.add(
-                    cb.equal(root.get("courseId"),params.getCourseId()));
+                    cb.equal(root.get("courseId"), params.getCourseId()));
         }
         if (params.getLessonId() != null) {
             predicates.add(
-                    cb.equal(root.get("lessonId"),params.getLessonId()));
+                    cb.equal(root.get("lessonId"), params.getLessonId()));
         }
         if (params.getCompleted() != null) {
             predicates.add(
-                    cb.equal(root.get("completed"),params.getCompleted()));
+                    cb.equal(root.get("completed"), params.getCompleted()));
         }
         if (params.getCompletionDate() != null) {
             predicates.add(
-                    cb.equal(root.get("completionDate"),params.getCompletionDate()));
+                    cb.equal(root.get("completionDate"), params.getCompletionDate()));
         }
         if (params.getCreatedAt() != null) {
             predicates.add(
-                    cb.equal(root.get("createdAt"),params.getCreatedAt()));
+                    cb.equal(root.get("createdAt"), params.getCreatedAt()));
         }
         if (params.getUpdatedAt() != null) {
             predicates.add(
-                    cb.equal(root.get("updatedAt"),params.getUpdatedAt()));
+                    cb.equal(root.get("updatedAt"), params.getUpdatedAt()));
         }
 
         final Predicate[] a = new Predicate[0];

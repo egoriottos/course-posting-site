@@ -17,12 +17,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class KeycloakConfig {
     private final JwtAuthConverter jwtAuthConverter;
+
     @Bean
     public CorsConfigurationSource corsConfiguration() {
         var configuration = new CorsConfiguration();
@@ -45,12 +47,12 @@ public class KeycloakConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizer->{
+                .authorizeHttpRequests(authorizer -> {
                     authorizer.requestMatchers("/**").permitAll().anyRequest().authenticated();
                 });
-        http.oauth2ResourceServer((oauth2)->
-                oauth2.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter)));
-        http.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.oauth2ResourceServer((oauth2) ->
+                oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)));
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 }

@@ -37,9 +37,10 @@ public class UserCourseProgressService {
 
     @Value("${certificate.service.url}")
     private String certificateServiceUrl;
+
     //создать прогресс курса пользователя
     @Transactional
-    public void createUserCourseProgress(CreateUserCourseProgressCommand command){
+    public void createUserCourseProgress(CreateUserCourseProgressCommand command) {
         var courseProgress = UserCourseProgress.builder()
                 .userId(command.getUserId())
                 .courseId(command.getCourseId())
@@ -49,19 +50,20 @@ public class UserCourseProgressService {
                 .build();
         userCourseProgressRepository.save(courseProgress);
     }
+
     //удалить прогресс курса
     @Transactional
-    public void deleteCourseProgress(Long courseProgressId){
+    public void deleteCourseProgress(Long courseProgressId) {
         userCourseProgressRepository.deleteById(courseProgressId);
     }
+
     //обновить прогресс курса пользователя
     @Transactional
-    public void updateUserCourseProgress(Long id,UpdateUserCourseProgressCommand command){
-        var userCourseProgress = userCourseProgressRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Course not found"));
-        if(!userCourseProgress.getCourseId().equals(command.getCourseId())
+    public void updateUserCourseProgress(Long id, UpdateUserCourseProgressCommand command) {
+        var userCourseProgress = userCourseProgressRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        if (!userCourseProgress.getCourseId().equals(command.getCourseId())
                 || !userCourseProgress.getProgressPercentage().equals(command.getProgressPercentage())
-                || !userCourseProgress.getCompleted().equals(command.getCompleted()))
-        {
+                || !userCourseProgress.getCompleted().equals(command.getCompleted())) {
             userCourseProgress.setCourseId(command.getCourseId());
             userCourseProgress.setProgressPercentage(command.getProgressPercentage());
             userCourseProgress.setCompleted(command.getCompleted());
@@ -69,20 +71,24 @@ public class UserCourseProgressService {
             userCourseProgressRepository.save(userCourseProgress);
         }
     }
+
     //получить список прогрессов пользователя по айди пользователя
-    public List<UserCourseProgressDto> getUserCoursesProgress(Long userId){
+    public List<UserCourseProgressDto> getUserCoursesProgress(Long userId) {
         return userCourseProgressRepository.findByUserId(userId).stream()
-                .map(obj->modelMapper.map(obj,UserCourseProgressDto.class)).collect(Collectors.toList());
+                .map(obj -> modelMapper.map(obj, UserCourseProgressDto.class)).collect(Collectors.toList());
 
     }
+
     //получить прогресс по конкретному курсу пользователя
-    public UserCourseProgressDto getUserCourseProgress(Long userId, Long courseId){
-        return modelMapper.map(userCourseProgressRepository.findByUserIdAndCourseId(userId,courseId),UserCourseProgressDto.class);
+    public UserCourseProgressDto getUserCourseProgress(Long userId, Long courseId) {
+        return modelMapper.map(userCourseProgressRepository.findByUserIdAndCourseId(userId, courseId), UserCourseProgressDto.class);
     }
+
     //получить прогресс по курсу пользователя из таблицы userCourseProgress
-    public UserCourseProgressDto getUserCourseProgress(Long id){
-        return modelMapper.map(userCourseProgressRepository.findById(id),UserCourseProgressDto.class);
+    public UserCourseProgressDto getUserCourseProgress(Long id) {
+        return modelMapper.map(userCourseProgressRepository.findById(id), UserCourseProgressDto.class);
     }
+
     //увеличить прогресс выполнения
     @Transactional
     public UserCourseProgress incrementProgress(Long userId, Long courseId, Long lessonId, Long testId) {
@@ -164,6 +170,7 @@ public class UserCourseProgressService {
         // Убедиться, что прогресс не превышает 100%
         return Math.min(combinedProgress, 100.0);
     }
+
     //генерация сертификата
     private void generateCertificate(Long userId, Long courseId) {
         String url = certificateServiceUrl + "/api/certificates";
@@ -171,8 +178,9 @@ public class UserCourseProgressService {
         CertificateRequest request = new CertificateRequest(userId, courseId);
         restTemplate.postForObject(url, request, Void.class);
     }
-    public List<UserCourseProgressDto> search(SearchCourseProgressParam params){
-       return customCourseProgressRepository.search(params).stream()
-               .map(obj->modelMapper.map(obj,UserCourseProgressDto.class)).collect(Collectors.toList());
+
+    public List<UserCourseProgressDto> search(SearchCourseProgressParam params) {
+        return customCourseProgressRepository.search(params).stream()
+                .map(obj -> modelMapper.map(obj, UserCourseProgressDto.class)).collect(Collectors.toList());
     }
 }

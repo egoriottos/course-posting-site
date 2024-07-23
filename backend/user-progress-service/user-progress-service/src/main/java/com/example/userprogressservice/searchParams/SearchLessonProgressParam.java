@@ -9,10 +9,10 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchLessonProgressParam {
-    public SearchLessonProgressParam(@JsonProperty("id") Long id,@JsonProperty("userId") Long userId,
-                                     @JsonProperty("courseId") Long courseId,@JsonProperty("lessonId") Long lessonId,
-                                     @JsonProperty("completed") Boolean completed,@JsonProperty("completionDate") Date completionDate,
-                                     @JsonProperty("createdAt") Date createdAt,@JsonProperty("updatedAt") Date updatedAt) {
+    public SearchLessonProgressParam(@JsonProperty("id") Long id, @JsonProperty("userId") Long userId,
+                                     @JsonProperty("courseId") Long courseId, @JsonProperty("lessonId") Long lessonId,
+                                     @JsonProperty("completed") Boolean completed, @JsonProperty("completionDate") Date completionDate,
+                                     @JsonProperty("createdAt") Date createdAt, @JsonProperty("updatedAt") Date updatedAt) {
         this.id = id;
         this.userId = userId;
         this.courseId = courseId;
